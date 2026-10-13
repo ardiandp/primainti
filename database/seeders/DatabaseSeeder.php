@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -11,15 +12,21 @@ class DatabaseSeeder extends Seeder
     use WithoutModelEvents;
 
     /**
-     * Seed the application's database.
+     * Seed data pengembangan (bukan data produksi).
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call(RoleSeeder::class);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Akun admin HANYA untuk pengembangan lokal.
+        // Password bawaan UserFactory ('password') — bukan kredensial produksi.
+        $admin = User::factory()->create([
+            'name' => 'Administrator',
+            'email' => 'admin@primainti.test',
         ]);
+
+        $admin->roles()->sync(
+            Role::where('name', 'administrator')->firstOrFail()
+        );
     }
 }
