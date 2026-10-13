@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ForgotPasswordController;
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\MediaLibraryController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -48,4 +49,13 @@ Route::middleware(['auth', 'active'])->prefix('admin')->name('admin.')->group(fu
     Route::resource('roles', RoleController::class)
         ->except(['show'])
         ->parameters(['roles' => 'role']);
+
+    // Media Library
+    Route::get('media', [MediaLibraryController::class, 'index'])->name('media.index');
+    Route::post('media', [MediaLibraryController::class, 'store'])->name('media.store');
+    Route::get('media/{media}/edit', [MediaLibraryController::class, 'edit'])->name('media.edit');
+    Route::put('media/{media}', [MediaLibraryController::class, 'update'])->name('media.update');
+    Route::delete('media/{media}', [MediaLibraryController::class, 'destroy'])->name('media.destroy');
+    Route::post('media/{media}/restore', [MediaLibraryController::class, 'restore'])->name('media.restore');
+    Route::delete('media/{media}/force', [MediaLibraryController::class, 'forceDestroy'])->name('media.force-destroy');
 });

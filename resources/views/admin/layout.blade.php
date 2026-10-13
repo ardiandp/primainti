@@ -45,6 +45,13 @@
                         Roles &amp; Permissions
                     </a>
                 @endif
+
+                @if (auth()->user()->hasPermission('media.manage'))
+                    <a href="{{ route('admin.media.index') }}"
+                       class="block rounded-lg px-3 py-2 hover:bg-gray-100 {{ request()->routeIs('admin.media.*') ? 'bg-gray-100 font-semibold' : '' }}">
+                        Media Library
+                    </a>
+                @endif
             </nav>
         </aside>
 
