@@ -14,7 +14,9 @@ trait HasRoles
 {
     public function assignRole(Role ...$roles): static
     {
-        $this->roles()->syncWithoutDetaching($roles->pluck('id'));
+        $this->roles()->syncWithoutDetaching(
+            collect($roles)->pluck('id')->all()
+        );
 
         return $this;
     }

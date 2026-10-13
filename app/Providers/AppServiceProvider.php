@@ -25,8 +25,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Role super_admin lolos seluruh Gate/Policies tanpa pengecekan permission.
+        // Ability berbentuk "titik" (mis. user.view) dicek lewat RBAC permission.
         Gate::before(function (User $user, string $ability) {
-            return $user->isSuperAdmin() ? true : null;
+            if ($user->isSuperAdmin()) {
+                return true;
+            }
+
+            return $user->hasPermission($ability) ? true : null;
         });
 
         // Rate limiting login: 5 percobaan per menit per kombinasi email+IP.
