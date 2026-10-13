@@ -14,6 +14,7 @@ Konvensi: PK `id bigint unsigned auto_increment` di semua tabel; `created_at`/`u
 | email | varchar(255) | no | UNI | — |
 | email_verified_at | timestamp | yes | — | — |
 | password | varchar(255) | no | — | hash bcrypt |
+| is_active | boolean | no | true | false = tidak bisa login |
 | remember_token | varchar(100) | yes | — | — |
 | created_at / updated_at | timestamp | yes | — | — |
 
@@ -325,8 +326,8 @@ Tabel bawaan `SESSION_DRIVER`/`CACHE_STORE`/`QUEUE_CONNECTION` = database. `cach
 | id | bigint unsigned | no | PRI, auto | — |
 | user_id | bigint unsigned | yes | FK users SET NULL | pelaku (bila ada) |
 | action | varchar(255) | no | MUL | mis. product.update |
-| auditable_type | varchar(255) | no | MUL(auditable_type, auditable_id) | class entitas (morph) |
-| auditable_id | bigint unsigned | no | | id entitas (morph) |
+| auditable_type | varchar(255) | **yes** | MUL(auditable_type, auditable_id) | class entitas (morph); NULL untuk aksi tanpa model (login dsb.) |
+| auditable_id | bigint unsigned | **yes** | | id entitas (morph) |
 | old_values | json | yes | — | snapshot sebelum perubahan |
 | new_values | json | yes | — | snapshot sesudah perubahan |
 | ip_address | varchar(45) | yes | — | — |
