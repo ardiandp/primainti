@@ -25,6 +25,9 @@ Legenda status: `Terkunci` = disetujui/tidak berubah tanpa proses; `Usulan` = re
 | D-10 | Stack: Laravel + MySQL + Blade + Livewire + Tailwind | Terkunci (acuan), implementasi Phase 1 |
 | D-11 | Rich text editor: Tiptap **atau** CKEditor — final setelah pemeriksaan lisensi/kompatibilitas | Terbuka → jatuh tempo Phase 4 |
 | D-12 | Media Library memakai Laravel Filesystem | Terkunci (acuan) |
+| D-13 | Role awal (Phase 2): `super_admin`, `content_admin`, `editor` — seeded via RoleSeeder | Terkunci interim |
+| D-14 | Permission memakai notasi dot (`user.view`, `content.manage`, dll.) + `Gate::before` (super_admin bypass; ability dot dicek lewat RBAC) | Terkunci interim |
+| D-15 | Editor saat ini TANPA hak publish (`content.publish` hanya super_admin & content_admin) — menunggu konfirmasi Q-12 | Usulan interim |
 
 ## C. Pertanyaan terbuka (wajib dijawab pemilik, sebagian menghambat fase berikut)
 
@@ -41,6 +44,7 @@ Legenda status: `Terkunci` = disetujui/tidak berubah tanpa proses; `Usulan` = re
 | Q-09 | Prosedur backup/restore database & file? | Backup terjadwal + dokumentasi restore | Owner Primainti | Terbuka | Phase 11 |
 | Q-10 | URL situs lama untuk migrasi konten & redirect 301? | Perlu daftar URL; bila tidak ada situs lama, deklarasikan "tanpa redirect" | Owner Primainti | Terbuka | Phase 10/11 |
 | Q-11 | Statistik, alamat, dan klaim bisnis mana yang sudah resmi disetujui? | Masuk daftar `docs/content/unverified-content.md` | Owner Primainti | Terbuka | Phase 8 |
+| Q-12 | Hak publish konten: apakah Editor boleh publish, atau hanya Content Admin? (PRD menyebut ditentukan di Phase 0, belum tercatat) | Saat ini: Editor hanya draft (D-15) | Owner Primainti | Terbuka | Phase 4 |
 
 ## D. Aturan proses yang dipakai fase ini
 
@@ -55,3 +59,4 @@ Legenda status: `Terkunci` = disetujui/tidak berubah tanpa proses; `Usulan` = re
 | Tanggal | Perubahan | Oleh |
 |---|---|---|
 | 2026-10-13 | Dokumen dibuat (Phase 0) | Audit agent |
+| 2026-10-14 | Tambah D-13…D-15 (role awal & hak publish interim) + Q-12 | Phase 2 |
