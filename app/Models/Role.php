@@ -18,4 +18,16 @@ class Role extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    /**
+     * @param  iterable<Permission>  $permissions
+     */
+    public function syncPermissions(iterable $permissions): static
+    {
+        $this->permissions()->sync(
+            collect($permissions)->map(fn (Permission $permission) => $permission->getKey())->all()
+        );
+
+        return $this;
+    }
 }

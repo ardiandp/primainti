@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $admin->roles()->sync(
-            Role::where('name', 'administrator')->firstOrFail()
+            Role::where('name', 'super_admin')->firstOrFail()
         );
     }
 }
