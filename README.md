@@ -82,6 +82,7 @@ Test memakai SQLite in-memory (`phpunit.xml`) sehingga tidak menyentuh database 
 | [`docs/content/`](docs/content/) | Inventaris konten & konten belum terverifikasi |
 | [`docs/design/design-tokens.md`](docs/design/design-tokens.md) | Design tokens (preliminary) |
 | [`docs/deployment/environment-checklist.md`](docs/deployment/environment-checklist.md) | Checklist environment |
+| [`docs/deployment/email-setup.md`](docs/deployment/email-setup.md) | Setup email lokal (log mailer/Mailpit) & produksi |
 
 ## Aturan proyek (ringkas)
 

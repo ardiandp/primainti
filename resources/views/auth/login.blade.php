@@ -42,6 +42,10 @@
                 Masuk
             </button>
         </form>
+
+        <p class="mt-6 text-center text-sm">
+            <a href="{{ route('password.request') }}" class="text-[#0F2A54] hover:underline">Lupa password?</a>
+        </p>
     </main>
 </body>
 </html>
