@@ -1,58 +1,93 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Primainti — Website Company Profile
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi Laravel untuk website Primainti. Dikembangkan bertahap mengikuti PRD per fase di [`docs/prd/`](docs/prd/).
 
-## About Laravel
+## Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| Komponen | Versi |
+|---|---|
+| PHP | ^8.3 (dev: 8.3.28) |
+| Laravel | ^13.17 (terkunci: 13.36.0) |
+| MySQL | 8.0 (dev: Laragon 8.0.30) |
+| Livewire | ^4.4 |
+| Tailwind CSS | ^4 |
+| Vite | ^8 |
+| Test | PHPUnit ^12 (`php artisan test`) |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Prasyarat
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.3+, Composer 2
+- MySQL 8 berjalan (mis. Laragon/XAMPP/MAMP)
+- Node.js 20+ dan npm (untuk build aset)
 
-## Learning Laravel
+## Instalasi lokal (fresh install)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```powershell
+# 1. Salin environment lalu isi kredensial DB (JANGAN commit .env)
+copy .env.example .env
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# 2. Buat database MySQL, misalnya bernama "primainti", lalu isi di .env:
+#    DB_DATABASE=primainti
+#    DB_USERNAME=...   DB_PASSWORD=...
+#    ( .env.example sengaja TANPA kredensial )
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+# 3. Install dependensi + key + migrate + build aset dalam satu langkah
+composer setup
 
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+# 4. (Opsional) isi data pengembangan: role + admin lokal
+php artisan migrate:fresh --seed
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Jalankan server:
 
-## Contributing
+```powershell
+php artisan serve        # http://localhost:8000
+# atau mode dev (server + queue + vite sekaligus):
+composer dev
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Catatan instalasi:
 
-## Code of Conduct
+- `composer setup` menjalankan: `composer install` → salin `.env` bila belum ada → `php artisan key:generate` → `php artisan migrate --force` → `npm install` → `npm run build`.
+- Seeder mengisi role (`administrator`, `editor`) dan **satu akun admin HANYA untuk pengembangan lokal** (`admin@primainti.test`, password bawaan `UserFactory` — lihat `database/factories/UserFactory.php`). Bukan kredensial produksi.
+- Seluruh kredensial produksi hanya hidup di `.env` yang masuk `.gitignore`.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Menjalankan test
 
-## Security Vulnerabilities
+```powershell
+composer test            # = php artisan test
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Test memakai SQLite in-memory (`phpunit.xml`) sehingga tidak menyentuh database MySQL lokal. Cakupan Phase 1: smoke test homepage, koneksi database, dan schema test seluruh tabel inti.
 
-## License
+## Perintah berguna
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Perintah | Fungsi |
+|---|---|
+| `php artisan migrate` | Jalankan migration yang belum jalan |
+| `php artisan migrate:fresh --seed` | Bangun ulang database dari kosong + seeder |
+| `php artisan migrate:status` | Status semua migration |
+| `php artisan test` | Jalankan seluruh test |
+| `composer setup` | Setup fresh install |
+| `composer dev` | Server dev + queue + vite |
+
+## Struktur dokumentasi
+
+| Lokasi | Isi |
+|---|---|
+| [`docs/prd/`](docs/prd/) | PRD per fase (Phase 0–12) + Master Roadmap |
+| [`docs/decisions/PROJECT_DECISIONS.md`](docs/decisions/PROJECT_DECISIONS.md) | Keputusan proyek & pertanyaan terbuka |
+| [`docs/database/ERD.md`](docs/database/ERD.md) | Diagram relasi + aturan delete |
+| [`docs/database/data-dictionary.md`](docs/database/data-dictionary.md) | Kamus data seluruh tabel |
+| [`docs/content/`](docs/content/) | Inventaris konten & konten belum terverifikasi |
+| [`docs/design/design-tokens.md`](docs/design/design-tokens.md) | Design tokens (preliminary) |
+| [`docs/deployment/environment-checklist.md`](docs/deployment/environment-checklist.md) | Checklist environment |
+
+## Aturan proyek (ringkas)
+
+- Satu fase PRD dikerjakan per waktu; pindah fase butuh persetujuan.
+- Satu task selesai = satu commit.
+- Perubahan skema database hanya lewat migration.
+- Query konten publik wajib status `published` (scope `published` tersedia di model).
+- Jangan simpan secret di repository atau `site_settings`.
+- Konten wajib dari materi resmi yang disetujui; yang belum diverifikasi ada di `docs/content/unverified-content.md`.
