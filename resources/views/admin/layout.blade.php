@@ -40,8 +40,8 @@
                 @endif
 
                 @if (auth()->user()->hasPermission('role.view'))
-                    <a href="/admin/roles"
-                       class="block rounded-lg px-3 py-2 hover:bg-gray-100 {{ request()->is('admin/roles*') ? 'bg-gray-100 font-semibold' : '' }}">
+                    <a href="{{ route('admin.roles.index') }}"
+                       class="block rounded-lg px-3 py-2 hover:bg-gray-100 {{ request()->routeIs('admin.roles.*') ? 'bg-gray-100 font-semibold' : '' }}">
                         Roles &amp; Permissions
                     </a>
                 @endif

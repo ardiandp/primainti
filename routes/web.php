@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,4 +32,8 @@ Route::middleware(['auth', 'active'])->prefix('admin')->name('admin.')->group(fu
     Route::post('users/{user}/deactivate', [UserController::class, 'deactivate'])->name('users.deactivate');
     Route::post('users/{user}/activate', [UserController::class, 'activate'])->name('users.activate');
     Route::post('users/{user}/reset-access', [UserController::class, 'resetAccess'])->name('users.reset-access');
+
+    Route::resource('roles', RoleController::class)
+        ->except(['show'])
+        ->parameters(['roles' => 'role']);
 });
