@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -22,4 +23,12 @@ Route::post('/logout', [LoginController::class, 'logout'])
 // Area admin (route lain menyusul di task berikutnya)
 Route::middleware(['auth', 'active'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', fn () => view('admin.dashboard'))->name('dashboard');
+
+    Route::resource('users', UserController::class)
+        ->except(['show', 'destroy'])
+        ->parameters(['users' => 'user']);
+
+    Route::post('users/{user}/deactivate', [UserController::class, 'deactivate'])->name('users.deactivate');
+    Route::post('users/{user}/activate', [UserController::class, 'activate'])->name('users.activate');
+    Route::post('users/{user}/reset-access', [UserController::class, 'resetAccess'])->name('users.reset-access');
 });

@@ -33,8 +33,8 @@
                 </a>
 
                 @if (auth()->user()->hasPermission('user.view'))
-                    <a href="/admin/users"
-                       class="block rounded-lg px-3 py-2 hover:bg-gray-100 {{ request()->is('admin/users*') ? 'bg-gray-100 font-semibold' : '' }}">
+                    <a href="{{ route('admin.users.index') }}"
+                       class="block rounded-lg px-3 py-2 hover:bg-gray-100 {{ request()->routeIs('admin.users.*') ? 'bg-gray-100 font-semibold' : '' }}">
                         Users
                     </a>
                 @endif
