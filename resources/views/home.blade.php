@@ -113,7 +113,7 @@
                     <p><span class="font-semibold">Jam operasional:</span> {{ $hours }}</p>
                 @endif
             </div>
-            <a href="{{ url("/{$locale}/kontak") }}" class="btn btn-secondary mt-6">Halaman Kontak</a>
+            <a href="{{ route('public.contact.show', $locale) }}" class="btn btn-secondary mt-6">Halaman Kontak</a>
         </section>
     @endif
 @endsection

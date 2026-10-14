@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FacilityShowController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
@@ -154,6 +155,11 @@ Route::get('/{locale}/fasilitas', [FacilityShowController::class, 'index'])
 Route::get('/{locale}/galeri', [GalleryController::class, 'index'])
     ->whereIn('locale', ['id', 'en'])
     ->name('public.gallery.index');
+
+// Kontak: rute khusus sebelum catch-all halaman (formulir menyusul Phase 9).
+Route::get('/{locale}/kontak', [ContactController::class, 'show'])
+    ->whereIn('locale', ['id', 'en'])
+    ->name('public.contact.show');
 
 // Halaman publik CMS: dua segmen dengan locale id/en, didaftarkan terakhir
 // agar tidak menelan route lain. Frontend penuh dibangun di Phase 8.

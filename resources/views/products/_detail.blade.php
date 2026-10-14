@@ -56,8 +56,8 @@
             <p class="mt-3 text-gray-700">{{ $translation->short_description }}</p>
         @endif
 
-        <a href="{{ url("/{$locale}/kontak") }}"
-           class="mt-5 inline-block rounded-lg bg-[#F97316] hover:bg-[#EA580C] px-5 py-2.5 text-sm font-semibold text-white transition">
+        <a href="{{ route('public.contact.show', $locale) }}"
+           class="btn btn-primary mt-5">
             Minta Penawaran
         </a>
     </div>
