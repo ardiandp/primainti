@@ -235,7 +235,8 @@ Tabel bawaan `SESSION_DRIVER`/`CACHE_STORE`/`QUEUE_CONNECTION` = database. `cach
 | Kolom | Tipe | Null | Key/Default | Keterangan |
 |---|---|---|---|---|
 | id | bigint unsigned | no | PRI, auto | — |
-| status | varchar(255) | no | MUL, 'draft' | draft / published |
+| status | varchar(255) | no | MUL, 'draft' | draft / published / archived |
+| sort_order | int unsigned | no | 0 | urutan tampil |
 | published_at | timestamp | yes | — | — |
 | created_at / updated_at / deleted_at | timestamp | yes | — | soft delete |
 
@@ -247,7 +248,8 @@ Tabel bawaan `SESSION_DRIVER`/`CACHE_STORE`/`QUEUE_CONNECTION` = database. `cach
 | locale | varchar(10) | no | UQ(locale, slug) | — |
 | name | varchar(255) | no | — | — |
 | slug | varchar(255) | no | — | — |
-| description | text | yes | — | — |
+| summary | text | yes | — | ringkasan |
+| description | text | yes | — | body rich text (tersanitasi) |
 | created_at / updated_at | timestamp | yes | — | — |
 
 ### facility_media
@@ -284,7 +286,10 @@ Tabel bawaan `SESSION_DRIVER`/`CACHE_STORE`/`QUEUE_CONNECTION` = database. `cach
 | id | bigint unsigned | no | PRI, auto | — |
 | gallery_category_id | bigint unsigned | yes | FK SET NULL | boleh tanpa kategori |
 | media_asset_id | bigint unsigned | yes | FK SET NULL | gambar utama; konten tetap bila media dihapus |
-| status | varchar(255) | no | MUL, 'draft' | draft / published |
+| alt_override | varchar(255) | yes | — | alt text override item |
+| taken_at | date | yes | — | tanggal foto (opsional) |
+| position | int unsigned | no | 0 | urutan tampil |
+| status | varchar(255) | no | MUL, 'draft' | draft / published / archived |
 | published_at | timestamp | yes | — | — |
 | created_at / updated_at / deleted_at | timestamp | yes | — | soft delete |
 

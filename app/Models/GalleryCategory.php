@@ -28,4 +28,9 @@ class GalleryCategory extends Model
     {
         return $query->where('status', 'published');
     }
+
+    public function translationFor(string $locale): ?GalleryCategoryTranslation
+    {
+        return $this->translations->firstWhere('locale', $locale);
+    }
 }

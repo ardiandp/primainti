@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['facility_id', 'locale', 'name', 'slug', 'description'])]
+#[Fillable(['facility_id', 'locale', 'name', 'slug', 'summary', 'description'])]
 class FacilityTranslation extends Model
 {
     public function facility(): BelongsTo
