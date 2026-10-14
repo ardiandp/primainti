@@ -18,7 +18,15 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RoleSeeder::class);
 
-        // Akun admin HANYA untuk pengembangan lokal.
+        // Akun admin HANYA untuk pengembangan lokal/testing.
+        // Di production seeder ini MENOLAK membuat kredensial default:
+        // akun admin produksi wajib dibuat manual oleh pemilik (lihat runbook).
+        if ($this->isProduction()) {
+            $this->command?->warn('DatabaseSeeder: akun admin dev dilewati di production.');
+
+            return;
+        }
+
         // Password bawaan UserFactory ('password') — bukan kredensial produksi.
         $admin = User::factory()->create([
             'name' => 'Administrator',
@@ -28,5 +36,10 @@ class DatabaseSeeder extends Seeder
         $admin->roles()->sync(
             Role::where('name', 'super_admin')->firstOrFail()
         );
+    }
+
+    private function isProduction(): bool
+    {
+        return app()->isProduction();
     }
 }
