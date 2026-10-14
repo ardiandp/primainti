@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\MediaAsset;
 use App\Models\User;
 
-class MediaPolicy
+class MediaAssetPolicy
 {
     public function viewAny(User $user): bool
     {

@@ -132,38 +132,44 @@ class MediaLibraryController extends Controller
         return redirect()->route('admin.media.index')->with('status', 'Media dipindahkan ke trash.');
     }
 
-    public function restore(MediaAsset $media)
+    public function restore(int $media)
     {
-        $this->authorize('update', $media);
+        // Resolve eksplisit dengan trashed: implicit binding default
+        // mengecualikan soft-deleted sehingga restore selalu 404 tanpanya.
+        $model = MediaAsset::withTrashed()->findOrFail($media);
 
-        $media->restore();
+        $this->authorize('update', $model);
 
-        AuditLogger::log('media.restore', $media, null, ['restored' => true]);
+        $model->restore();
+
+        AuditLogger::log('media.restore', $model, null, ['restored' => true]);
 
         return back()->with('status', 'Media dipulihkan.');
     }
 
-    public function forceDestroy(MediaAsset $media)
+    public function forceDestroy(int $media)
     {
-        $this->authorize('delete', $media);
+        $model = MediaAsset::withTrashed()->findOrFail($media);
 
-        if ($this->usage->isReferenced($media)) {
+        $this->authorize('delete', $model);
+
+        if ($this->usage->isReferenced($model)) {
             return back()->withErrors([
                 'media' => 'Media masih dipakai konten lain dan tidak bisa dihapus permanen.',
             ]);
         }
 
         // Hapus file fisik (asli + varian) sebelum baris database dihapus permanen.
-        foreach ($media->variants as $variant) {
-            Storage::disk($media->disk)->delete($variant->path);
+        foreach ($model->variants as $variant) {
+            Storage::disk($model->disk)->delete($variant->path);
         }
 
-        Storage::disk($media->disk)->delete($media->path);
+        Storage::disk($model->disk)->delete($model->path);
 
-        $media->variants()->delete();
-        $media->forceDelete();
+        $model->variants()->delete();
+        $model->forceDelete();
 
-        AuditLogger::log('media.force_delete', $media, ['path' => $media->path], null);
+        AuditLogger::log('media.force_delete', $model, ['path' => $model->path], null);
 
         return redirect()->route('admin.media.index', ['trash' => 1])->with('status', 'Media dihapus permanen.');
     }
