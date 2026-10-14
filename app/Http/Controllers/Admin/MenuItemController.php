@@ -40,6 +40,8 @@ class MenuItemController extends Controller
             'link_type' => $item->link_type,
         ]);
 
+        MenuService::flushTrees();
+
         return redirect()->route('admin.menus.edit', $item->menu_id)->with('status', 'Item menu ditambah.');
     }
 
@@ -74,6 +76,8 @@ class MenuItemController extends Controller
             'link_type' => $menuItem->link_type,
         ]);
 
+        MenuService::flushTrees();
+
         return redirect()->route('admin.menus.edit', $menuItem->menu_id)->with('status', 'Item menu diperbarui.');
     }
 
@@ -90,6 +94,8 @@ class MenuItemController extends Controller
         $menuItem->delete();
 
         AuditLogger::log('menu_item.delete', $menuItem, ['id' => $menuItem->id], null);
+
+        MenuService::flushTrees();
 
         return redirect()->route('admin.menus.edit', $menuId)->with('status', 'Item menu dihapus.');
     }
