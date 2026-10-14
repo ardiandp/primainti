@@ -45,19 +45,30 @@ class AppServiceProvider extends ServiceProvider
             );
         });
 
-        // Chrome publik: menu + pengaturan + switcher bahasa tersedia
-        // di setiap view ber-layout publik.
+        // Service tanpa query tersedia di semua view (child view tidak
+        // mewarisi data composer milik layout induk).
+        View::composer('*', function ($view) {
+            $data = $view->getData();
+
+            if (! array_key_exists('settings', $data)) {
+                $view->with('settings', app(SettingsService::class));
+            }
+
+            if (! array_key_exists('localeSwitcher', $data)) {
+                $view->with('localeSwitcher', app(LocaleUrl::class));
+            }
+        });
+
+        // Chrome publik: locale + tree menu untuk layout dan turunannya.
         View::composer('layouts.public', function ($view) {
             $data = $view->getData();
             $locale = $data['locale'] ?? config('app.locale');
             $menus = app(MenuService::class);
 
             $view->with([
-                'settings' => app(SettingsService::class),
                 'locale' => $locale,
                 'headerMenu' => $menus->tree('header', $locale),
                 'footerMenu' => $menus->tree('footer', $locale),
-                'localeSwitcher' => app(LocaleUrl::class),
             ]);
         });
     }
