@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\MediaLibraryController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\FacilityController;
+use App\Http\Controllers\Admin\GalleryCategoryController;
+use App\Http\Controllers\Admin\GalleryItemController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
@@ -97,6 +99,24 @@ Route::middleware(['auth', 'active'])->prefix('admin')->name('admin.')->group(fu
     Route::get('facilities/{facility}/preview', [FacilityController::class, 'preview'])->name('facilities.preview');
     Route::post('facilities/{facility}/restore', [FacilityController::class, 'restore'])->name('facilities.restore');
     Route::delete('facilities/{facility}/force', [FacilityController::class, 'forceDestroy'])->name('facilities.force-destroy');
+
+    // Galeri: kategori
+    Route::resource('gallery-categories', GalleryCategoryController::class)
+        ->except(['show'])
+        ->parameters(['gallery-categories' => 'gallery_category']);
+    Route::post('gallery-categories/{gallery_category}/restore', [GalleryCategoryController::class, 'restore'])
+        ->name('gallery-categories.restore');
+    Route::delete('gallery-categories/{gallery_category}/force', [GalleryCategoryController::class, 'forceDestroy'])
+        ->name('gallery-categories.force-destroy');
+
+    // Galeri: item
+    Route::resource('gallery-items', GalleryItemController::class)
+        ->except(['show'])
+        ->parameters(['gallery-items' => 'gallery_item']);
+    Route::post('gallery-items/{gallery_item}/restore', [GalleryItemController::class, 'restore'])
+        ->name('gallery-items.restore');
+    Route::delete('gallery-items/{gallery_item}/force', [GalleryItemController::class, 'forceDestroy'])
+        ->name('gallery-items.force-destroy');
 });
 
 // Katalog publik: didaftarkan sebelum catch-all halaman agar

@@ -80,6 +80,20 @@
                         Fasilitas
                     </a>
                 @endif
+
+                @if (auth()->user()->hasPermission('content.manage'))
+                    <a href="{{ route('admin.gallery-categories.index') }}"
+                       class="block rounded-lg px-3 py-2 hover:bg-gray-100 {{ request()->routeIs('admin.gallery-categories.*') ? 'bg-gray-100 font-semibold' : '' }}">
+                        Kategori Galeri
+                    </a>
+                @endif
+
+                @if (auth()->user()->hasPermission('content.manage'))
+                    <a href="{{ route('admin.gallery-items.index') }}"
+                       class="block rounded-lg px-3 py-2 hover:bg-gray-100 {{ request()->routeIs('admin.gallery-items.*') ? 'bg-gray-100 font-semibold' : '' }}">
+                        Galeri
+                    </a>
+                @endif
             </nav>
         </aside>
 
