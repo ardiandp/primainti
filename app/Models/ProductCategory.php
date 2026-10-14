@@ -29,4 +29,9 @@ class ProductCategory extends Model
     {
         return $query->where('status', 'published');
     }
+
+    public function translationFor(string $locale): ?ProductCategoryTranslation
+    {
+        return $this->translations->firstWhere('locale', $locale);
+    }
 }

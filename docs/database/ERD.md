@@ -28,7 +28,10 @@ erDiagram
     product_categories ||--o{ products : "memiliki"
     products ||--o{ product_translations : "terjemahan"
     products ||--o{ product_media : "galeri gambar"
+    products ||--o{ product_documents : "dokumen"
     products ||--o{ product_specifications : "spesifikasi"
+    product_translations }o--o| media_assets : "OG image"
+    product_documents }o--o| media_assets : "file"
     product_specifications ||--o{ product_specification_translations : "terjemahan"
 
     facilities ||--o{ facility_translations : "terjemahan"

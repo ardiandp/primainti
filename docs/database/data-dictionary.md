@@ -166,7 +166,9 @@ Tabel bawaan `SESSION_DRIVER`/`CACHE_STORE`/`QUEUE_CONNECTION` = database. `cach
 | id | bigint unsigned | no | PRI, auto | — |
 | product_category_id | bigint unsigned | no | FK RESTRICT | kategori wajib |
 | sku | varchar(255) | yes | UNI | kode produk |
-| status | varchar(255) | no | MUL, 'draft' | draft / published |
+| status | varchar(255) | no | MUL, 'draft' | draft / published / archived |
+| is_featured | boolean | no | false | produk unggulan |
+| sort_order | int unsigned | no | 0 | urutan katalog |
 | published_at | timestamp | yes | — | — |
 | created_at / updated_at / deleted_at | timestamp | yes | — | soft delete |
 
@@ -179,7 +181,23 @@ Tabel bawaan `SESSION_DRIVER`/`CACHE_STORE`/`QUEUE_CONNECTION` = database. `cach
 | name | varchar(255) | no | — | — |
 | slug | varchar(255) | no | — | — |
 | short_description | text | yes | — | — |
-| description | longtext | yes | — | deskripsi lengkap |
+| description | longtext | yes | — | deskripsi lengkap (tersanitasi) |
+| functions | longtext | yes | — | fungsi produk (tersanitasi) |
+| applications | longtext | yes | — | aplikasi produk (tersanitasi) |
+| seo_title | varchar(255) | yes | — | SEO title per locale |
+| seo_description | varchar(500) | yes | — | meta description per locale |
+| og_image_id | bigint unsigned | yes | FK media_assets SET NULL | OG image dari Media Library |
+| created_at / updated_at | timestamp | yes | — | — |
+
+### product_documents
+| Kolom | Tipe | Null | Key/Default | Keterangan |
+|---|---|---|---|---|
+| id | bigint unsigned | no | PRI, auto | — |
+| product_id | bigint unsigned | no | FK CASCADE, MUL(position) | — |
+| media_asset_id | bigint unsigned | yes | FK media_assets SET NULL | file dari Media Library |
+| type | varchar(50) | no | MUL, 'datasheet' | datasheet / manual / sertifikat |
+| label | varchar(255) | yes | — | label tautan unduhan |
+| position | int unsigned | no | 0 | urutan tampil |
 | created_at / updated_at | timestamp | yes | — | — |
 
 ### product_media
@@ -198,6 +216,7 @@ Tabel bawaan `SESSION_DRIVER`/`CACHE_STORE`/`QUEUE_CONNECTION` = database. `cach
 | id | bigint unsigned | no | PRI, auto | — |
 | product_id | bigint unsigned | no | FK CASCADE, MUL(product_id, sort_order) | — |
 | sort_order | int | no | 0 | urutan spesifikasi |
+| unit | varchar(50) | yes | — | satuan nilai (mis. mm, kg) |
 | created_at / updated_at | timestamp | yes | — | — |
 
 ### product_specification_translations
