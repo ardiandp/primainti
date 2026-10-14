@@ -162,10 +162,14 @@ Route::get('/{locale}/galeri', [GalleryController::class, 'index'])
     ->whereIn('locale', ['id', 'en'])
     ->name('public.gallery.index');
 
-// Kontak: rute khusus sebelum catch-all halaman (formulir menyusul Phase 9).
+// Kontak: rute khusus sebelum catch-all halaman.
 Route::get('/{locale}/kontak', [ContactController::class, 'show'])
     ->whereIn('locale', ['id', 'en'])
     ->name('public.contact.show');
+Route::post('/{locale}/kontak', [ContactController::class, 'store'])
+    ->whereIn('locale', ['id', 'en'])
+    ->middleware('throttle:5,10')
+    ->name('public.contact.store');
 
 // Halaman publik CMS: dua segmen dengan locale id/en, didaftarkan terakhir
 // agar tidak menelan route lain. Frontend penuh dibangun di Phase 8.
