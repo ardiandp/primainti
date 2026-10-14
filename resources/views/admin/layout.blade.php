@@ -101,6 +101,13 @@
                         Pengaturan
                     </a>
                 @endif
+
+                @if (auth()->user()->hasPermission('content.manage'))
+                    <a href="{{ route('admin.menus.index') }}"
+                       class="block rounded-lg px-3 py-2 hover:bg-gray-100 {{ request()->routeIs('admin.menus.*') || request()->routeIs('admin.menu-items.*') ? 'bg-gray-100 font-semibold' : '' }}">
+                        Menu
+                    </a>
+                @endif
             </nav>
         </aside>
 

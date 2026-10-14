@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\FacilityController;
 use App\Http\Controllers\Admin\GalleryCategoryController;
 use App\Http\Controllers\Admin\GalleryItemController;
+use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\MenuItemController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
@@ -124,6 +126,15 @@ Route::middleware(['auth', 'active'])->prefix('admin')->name('admin.')->group(fu
     // Pengaturan global
     Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('settings', [SettingsController::class, 'update'])->name('settings.update');
+
+    // Menu navigasi
+    Route::get('menus', [MenuController::class, 'index'])->name('menus.index');
+    Route::get('menus/{menu}/edit', [MenuController::class, 'edit'])->name('menus.edit');
+    Route::get('menus/{menu}/items/create', [MenuItemController::class, 'create'])->name('menu-items.create');
+    Route::post('menu-items', [MenuItemController::class, 'store'])->name('menu-items.store');
+    Route::get('menu-items/{menu_item}/edit', [MenuItemController::class, 'edit'])->name('menu-items.edit');
+    Route::put('menu-items/{menu_item}', [MenuItemController::class, 'update'])->name('menu-items.update');
+    Route::delete('menu-items/{menu_item}', [MenuItemController::class, 'destroy'])->name('menu-items.destroy');
 });
 
 // Katalog publik: didaftarkan sebelum catch-all halaman agar
