@@ -1,5 +1,7 @@
-<div>
-    {{-- Tombol pemicu dibuat oleh modul pemakai: wire:click="$dispatch('open-media-picker')" --}}
+{{-- Entangle agar state $open Livewire tersinkron ke Alpine (x-show);
+     dengarkan juga event DOM untuk pemicu dari JavaScript biasa (toolbar RTE). --}}
+<div x-data="{ open: $wire.entangle('open') }" x-on:open-media-picker-dom.window="$wire.openPicker()">
+    {{-- Tombol pemicu Livewire oleh modul pemakai: wire:click="$dispatch('open-media-picker')" --}}
 
     <div x-show="open" x-cloak class="fixed inset-0 z-50 flex items-center justify-center" style="display:none">
         <div class="absolute inset-0 bg-black/60" wire:click="close"></div>
