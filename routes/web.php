@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\MediaLibraryController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\PageShowController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -68,3 +69,9 @@ Route::middleware(['auth', 'active'])->prefix('admin')->name('admin.')->group(fu
     Route::post('pages/{page}/restore', [PageController::class, 'restore'])->name('pages.restore');
     Route::delete('pages/{page}/force', [PageController::class, 'forceDestroy'])->name('pages.force-destroy');
 });
+
+// Halaman publik CMS: dua segmen dengan locale id/en, didaftarkan terakhir
+// agar tidak menelan route lain. Frontend penuh dibangun di Phase 8.
+Route::get('/{locale}/{slug}', [PageShowController::class, 'show'])
+    ->whereIn('locale', ['id', 'en'])
+    ->name('public.pages.show');
