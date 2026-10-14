@@ -114,15 +114,18 @@ class SettingsService
         Cache::forget(self::CACHE_KEY);
     }
 
+    /** @var array<string, ?MediaAsset> */
+    private array $mediaMemo = [];
+
     public function media(string $key): ?MediaAsset
     {
-        $id = $this->get($key);
-
-        if (! $id) {
-            return null;
+        if (array_key_exists($key, $this->mediaMemo)) {
+            return $this->mediaMemo[$key];
         }
 
-        return MediaAsset::find($id);
+        $id = $this->get($key);
+
+        return $this->mediaMemo[$key] = $id ? MediaAsset::find($id) : null;
     }
 
     /** @return array<int, array{key: string, label: string, url: string}> */

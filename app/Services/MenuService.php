@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Menu;
 use App\Models\MenuItem;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Resolusi menu CMS menjadi tree siap render.
@@ -52,19 +54,37 @@ class MenuService
                 ? ['valid' => false, 'message' => 'Kategori tidak tersedia (draft/terhapus).']
                 : ['valid' => true, 'message' => null],
             'route' => in_array($item->route_name, self::ROUTE_ALLOWLIST, true)
-                && \Illuminate\Support\Facades\Route::has($item->route_name)
+                && Route::has($item->route_name)
                 ? ['valid' => true, 'message' => null]
                 : ['valid' => false, 'message' => 'Rute tidak diizinkan.'],
             default => ['valid' => false, 'message' => 'Tipe tautan tidak dikenal.'],
         };
     }
 
+    /** Hapus cache tree menu (dipanggil setiap perubahan item). */
+    public static function flushTrees(): void
+    {
+        foreach (Menu::LOCATIONS as $location) {
+            foreach (['id', 'en'] as $locale) {
+                Cache::forget("menu_tree_{$location}_{$locale}");
+            }
+        }
+    }
+
     /**
-     * Tree item VALID untuk locale tertentu.
+     * Tree item VALID untuk locale tertentu (di-cache + invalidasi eksplisit).
      *
      * @return array<int, array{label: string, url: string, blank: bool, children: array}>
      */
     public function tree(string $location, string $locale): array
+    {
+        return Cache::rememberForever("menu_tree_{$location}_{$locale}", function () use ($location, $locale) {
+            return $this->buildTree($location, $locale);
+        });
+    }
+
+    /** @return array<int, array{label: string, url: string, blank: bool, children: array}> */
+    private function buildTree(string $location, string $locale): array
     {
         $menu = Menu::where('location', $location)->first();
 
@@ -111,7 +131,7 @@ class MenuService
             'page' => $this->pageUrl($item, $locale),
             'product_category' => $this->categoryUrl($item, $locale),
             'route' => in_array($item->route_name, self::ROUTE_ALLOWLIST, true)
-                && \Illuminate\Support\Facades\Route::has($item->route_name)
+                && Route::has($item->route_name)
                 ? route($item->route_name, $locale)
                 : null,
             default => null,

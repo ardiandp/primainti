@@ -3,10 +3,14 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\Services\LocaleUrl;
+use App\Services\MenuService;
+use App\Services\SettingsService;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -39,6 +43,22 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by(
                 strtolower((string) $request->input('email')).'|'.$request->ip()
             );
+        });
+
+        // Chrome publik: menu + pengaturan + switcher bahasa tersedia
+        // di setiap view ber-layout publik.
+        View::composer('layouts.public', function ($view) {
+            $data = $view->getData();
+            $locale = $data['locale'] ?? config('app.locale');
+            $menus = app(MenuService::class);
+
+            $view->with([
+                'settings' => app(SettingsService::class),
+                'locale' => $locale,
+                'headerMenu' => $menus->tree('header', $locale),
+                'footerMenu' => $menus->tree('footer', $locale),
+                'localeSwitcher' => app(LocaleUrl::class),
+            ]);
         });
     }
 }
