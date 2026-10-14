@@ -74,17 +74,22 @@ class MenuService
     /**
      * Tree item VALID untuk locale tertentu (di-cache + invalidasi eksplisit).
      *
+     * Yang di-cache hanya target MENTAH (slug, nama route, URL relatif).
+     * URL absolut dirakit per request agar selalu mengikuti host pengunjung.
+     *
      * @return array<int, array{label: string, url: string, blank: bool, children: array}>
      */
     public function tree(string $location, string $locale): array
     {
-        return Cache::rememberForever("menu_tree_{$location}_{$locale}", function () use ($location, $locale) {
-            return $this->buildTree($location, $locale);
+        $raw = Cache::rememberForever("menu_tree_{$location}_{$locale}", function () use ($location, $locale) {
+            return $this->buildRawTree($location, $locale);
         });
+
+        return $this->finalizeNodes($raw, $locale);
     }
 
     /** @return array<int, array{label: string, url: string, blank: bool, children: array}> */
-    private function buildTree(string $location, string $locale): array
+    private function buildRawTree(string $location, string $locale): array
     {
         $menu = Menu::where('location', $location)->first();
 
@@ -104,17 +109,17 @@ class MenuService
             $nodes = [];
 
             foreach ($byParent->get($parentId, []) as $item) {
-                $resolved = $this->resolve($item, $locale);
+                $raw = $this->rawNode($item, $locale);
 
-                if ($resolved === null) {
+                if ($raw === null) {
                     continue;
                 }
 
-                $resolved['children'] = $item->parent_id === null
+                $raw['children'] = $item->parent_id === null
                     ? $build($item->id)
                     : [];
 
-                $nodes[] = $resolved;
+                $nodes[] = $raw;
             }
 
             return $nodes;
@@ -123,17 +128,76 @@ class MenuService
         return $build(0);
     }
 
+    /**
+     * Node mentah yang aman di-cache (tanpa URL absolut).
+     *
+     * @return array{label: string, blank: bool, link: array<string, mixed>, children?: array}|null
+     */
+    private function rawNode(MenuItem $item, string $locale): ?array
+    {
+        $link = match ($item->link_type) {
+            'url' => self::isSafeUrl($item->url) ? ['kind' => 'url', 'url' => trim((string) $item->url)] : null,
+            'page' => $this->pageLink($item, $locale),
+            'product_category' => $this->categoryLink($item, $locale),
+            'route' => in_array($item->route_name, self::ROUTE_ALLOWLIST, true)
+                ? ['kind' => 'route', 'name' => $item->route_name]
+                : null,
+            default => null,
+        };
+
+        if ($link === null) {
+            return null;
+        }
+
+        return [
+            'label' => $item->labelFor($locale),
+            'blank' => (bool) $item->opens_in_new_tab,
+            'link' => $link,
+        ];
+    }
+
     /** @return array{label: string, url: string, blank: bool}|null */
     public function resolve(MenuItem $item, string $locale): ?array
     {
-        $url = match ($item->link_type) {
-            'url' => self::isSafeUrl($item->url) ? trim((string) $item->url) : null,
-            'page' => $this->pageUrl($item, $locale),
-            'product_category' => $this->categoryUrl($item, $locale),
-            'route' => in_array($item->route_name, self::ROUTE_ALLOWLIST, true)
-                && Route::has($item->route_name)
-                ? route($item->route_name, $locale)
-                : null,
+        $raw = $this->rawNode($item, $locale);
+
+        if ($raw === null) {
+            return null;
+        }
+
+        return $this->finalizeNode($raw, $locale);
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $nodes
+     * @return array<int, array{label: string, url: string, blank: bool, children: array}>
+     */
+    private function finalizeNodes(array $nodes, string $locale): array
+    {
+        $final = [];
+
+        foreach ($nodes as $node) {
+            $resolved = $this->finalizeNode($node, $locale);
+
+            if ($resolved === null) {
+                continue;
+            }
+
+            $resolved['children'] = $this->finalizeNodes($node['children'] ?? [], $locale);
+            $final[] = $resolved;
+        }
+
+        return $final;
+    }
+
+    /** @return array{label: string, url: string, blank: bool}|null */
+    private function finalizeNode(array $node, string $locale): ?array
+    {
+        $url = match ($node['link']['kind'] ?? null) {
+            'url' => $node['link']['url'],
+            'page' => route('public.pages.show', [$node['link']['locale'], $node['link']['slug']]),
+            'category' => route('public.products.index', [$locale, 'kategori' => $node['link']['slug']]),
+            'route' => Route::has($node['link']['name']) ? route($node['link']['name'], $locale) : null,
             default => null,
         };
 
@@ -142,9 +206,9 @@ class MenuService
         }
 
         return [
-            'label' => $item->labelFor($locale),
+            'label' => $node['label'],
             'url' => $url,
-            'blank' => (bool) $item->opens_in_new_tab,
+            'blank' => (bool) $node['blank'],
         ];
     }
 
@@ -155,7 +219,8 @@ class MenuService
         return $page && $page->status === 'published' ? $page : null;
     }
 
-    private function pageUrl(MenuItem $item, string $locale): ?string
+    /** @return array{kind: string, locale: string, slug: string}|null */
+    private function pageLink(MenuItem $item, string $locale): ?array
     {
         $page = $this->pageTarget($item);
 
@@ -174,7 +239,7 @@ class MenuService
             return null;
         }
 
-        return route('public.pages.show', [$translation->locale, $translation->slug]);
+        return ['kind' => 'page', 'locale' => $translation->locale, 'slug' => $translation->slug];
     }
 
     private function categoryTarget(MenuItem $item): ?\App\Models\ProductCategory
@@ -186,7 +251,8 @@ class MenuService
         return $category && $category->status === 'published' ? $category : null;
     }
 
-    private function categoryUrl(MenuItem $item, string $locale): ?string
+    /** @return array{kind: string, slug: string}|null */
+    private function categoryLink(MenuItem $item, string $locale): ?array
     {
         $category = $this->categoryTarget($item);
 
@@ -205,6 +271,6 @@ class MenuService
             return null;
         }
 
-        return route('public.products.index', [$locale, 'kategori' => $translation->slug]);
+        return ['kind' => 'category', 'slug' => $translation->slug];
     }
 }

@@ -331,4 +331,27 @@ class SiteManagementTest extends TestCase
     {
         $this->get('/id/produk?q=pompa')->assertOk()->assertSee('/en/produk?q=pompa', false);
     }
+
+    public function test_menu_cache_stores_no_absolute_urls(): void
+    {
+        $header = app(MenuService::class)->menu('header');
+        $header->items()->create([
+            'title' => 'Produk', 'link_type' => 'route',
+            'route_name' => 'public.products.index', 'position' => 0,
+        ]);
+        MenuService::flushTrees();
+        $this->makeLivePage();
+
+        // Render via host:port non-default (URL absolut mengikuti request).
+        $this->get('http://127.0.0.1:8099/id/tentang')
+            ->assertOk()
+            ->assertSee('http://127.0.0.1:8099/id/produk', false);
+
+        // Isi cache tree mentah tidak boleh mengandung host apa pun,
+        // sehingga pengunjung host lain tak kebagian URL basi.
+        $cached = \Illuminate\Support\Facades\Cache::get('menu_tree_header_id');
+        $this->assertNotEmpty($cached);
+        $this->assertStringNotContainsString('http', json_encode($cached));
+        $this->assertStringNotContainsString('8099', json_encode($cached));
+    }
 }
