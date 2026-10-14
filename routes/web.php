@@ -5,9 +5,11 @@ use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\MediaLibraryController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\ProductCategoryController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\PageShowController;
+use App\Http\Controllers\ProductCatalogController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -78,7 +80,24 @@ Route::middleware(['auth', 'active'])->prefix('admin')->name('admin.')->group(fu
         ->name('product-categories.restore');
     Route::delete('product-categories/{product_category}/force', [ProductCategoryController::class, 'forceDestroy'])
         ->name('product-categories.force-destroy');
+
+    // Katalog produk: produk
+    Route::resource('products', ProductController::class)
+        ->except(['show'])
+        ->parameters(['products' => 'product']);
+    Route::get('products/{product}/preview', [ProductController::class, 'preview'])->name('products.preview');
+    Route::post('products/{product}/restore', [ProductController::class, 'restore'])->name('products.restore');
+    Route::delete('products/{product}/force', [ProductController::class, 'forceDestroy'])->name('products.force-destroy');
 });
+
+// Katalog publik: didaftarkan sebelum catch-all halaman agar
+// /{locale}/produk tidak ditelan sebagai slug halaman.
+Route::get('/{locale}/produk', [ProductCatalogController::class, 'index'])
+    ->whereIn('locale', ['id', 'en'])
+    ->name('public.products.index');
+Route::get('/{locale}/produk/{slug}', [ProductCatalogController::class, 'show'])
+    ->whereIn('locale', ['id', 'en'])
+    ->name('public.products.show');
 
 // Halaman publik CMS: dua segmen dengan locale id/en, didaftarkan terakhir
 // agar tidak menelan route lain. Frontend penuh dibangun di Phase 8.

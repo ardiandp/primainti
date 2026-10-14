@@ -66,6 +66,13 @@
                         Kategori Produk
                     </a>
                 @endif
+
+                @if (auth()->user()->hasPermission('content.manage'))
+                    <a href="{{ route('admin.products.index') }}"
+                       class="block rounded-lg px-3 py-2 hover:bg-gray-100 {{ request()->routeIs('admin.products.*') ? 'bg-gray-100 font-semibold' : '' }}">
+                        Produk
+                    </a>
+                @endif
             </nav>
         </aside>
 
