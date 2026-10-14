@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ForgotPasswordController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\MediaLibraryController;
+use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -58,4 +59,12 @@ Route::middleware(['auth', 'active'])->prefix('admin')->name('admin.')->group(fu
     Route::delete('media/{media}', [MediaLibraryController::class, 'destroy'])->name('media.destroy');
     Route::post('media/{media}/restore', [MediaLibraryController::class, 'restore'])->name('media.restore');
     Route::delete('media/{media}/force', [MediaLibraryController::class, 'forceDestroy'])->name('media.force-destroy');
+
+    // CMS Pages
+    Route::resource('pages', PageController::class)
+        ->except(['show'])
+        ->parameters(['pages' => 'page']);
+    Route::get('pages/{page}/preview', [PageController::class, 'preview'])->name('pages.preview');
+    Route::post('pages/{page}/restore', [PageController::class, 'restore'])->name('pages.restore');
+    Route::delete('pages/{page}/force', [PageController::class, 'forceDestroy'])->name('pages.force-destroy');
 });

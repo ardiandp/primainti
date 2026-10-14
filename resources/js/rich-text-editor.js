@@ -318,3 +318,9 @@ function initRichText(root) {
 }
 
 document.querySelectorAll('[data-rich-text]').forEach(initRichText);
+
+// Inisialisasi ulang root yang ditambahkan dinamis (mis. section baru
+// pada form halaman): window.dispatchEvent(new CustomEvent('rte:refresh')).
+window.addEventListener('rte:refresh', () => {
+    document.querySelectorAll('[data-rich-text]').forEach(initRichText);
+});
