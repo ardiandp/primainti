@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\FacilityShowController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\PageShowController;
 use App\Http\Controllers\ProductCatalogController;
 use Illuminate\Support\Facades\Route;
@@ -127,6 +129,12 @@ Route::get('/{locale}/produk', [ProductCatalogController::class, 'index'])
 Route::get('/{locale}/produk/{slug}', [ProductCatalogController::class, 'show'])
     ->whereIn('locale', ['id', 'en'])
     ->name('public.products.show');
+Route::get('/{locale}/fasilitas', [FacilityShowController::class, 'index'])
+    ->whereIn('locale', ['id', 'en'])
+    ->name('public.facilities.index');
+Route::get('/{locale}/galeri', [GalleryController::class, 'index'])
+    ->whereIn('locale', ['id', 'en'])
+    ->name('public.gallery.index');
 
 // Halaman publik CMS: dua segmen dengan locale id/en, didaftarkan terakhir
 // agar tidak menelan route lain. Frontend penuh dibangun di Phase 8.
