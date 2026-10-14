@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ForgotPasswordController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\MediaLibraryController;
 use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\PageShowController;
@@ -68,6 +69,15 @@ Route::middleware(['auth', 'active'])->prefix('admin')->name('admin.')->group(fu
     Route::get('pages/{page}/preview', [PageController::class, 'preview'])->name('pages.preview');
     Route::post('pages/{page}/restore', [PageController::class, 'restore'])->name('pages.restore');
     Route::delete('pages/{page}/force', [PageController::class, 'forceDestroy'])->name('pages.force-destroy');
+
+    // Katalog produk: kategori
+    Route::resource('product-categories', ProductCategoryController::class)
+        ->except(['show'])
+        ->parameters(['product-categories' => 'product_category']);
+    Route::post('product-categories/{product_category}/restore', [ProductCategoryController::class, 'restore'])
+        ->name('product-categories.restore');
+    Route::delete('product-categories/{product_category}/force', [ProductCategoryController::class, 'forceDestroy'])
+        ->name('product-categories.force-destroy');
 });
 
 // Halaman publik CMS: dua segmen dengan locale id/en, didaftarkan terakhir

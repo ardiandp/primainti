@@ -59,6 +59,13 @@
                         Halaman
                     </a>
                 @endif
+
+                @if (auth()->user()->hasPermission('content.manage'))
+                    <a href="{{ route('admin.product-categories.index') }}"
+                       class="block rounded-lg px-3 py-2 hover:bg-gray-100 {{ request()->routeIs('admin.product-categories.*') ? 'bg-gray-100 font-semibold' : '' }}">
+                        Kategori Produk
+                    </a>
+                @endif
             </nav>
         </aside>
 
