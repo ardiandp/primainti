@@ -318,12 +318,24 @@ Tabel bawaan `SESSION_DRIVER`/`CACHE_STORE`/`QUEUE_CONNECTION` = database. `cach
 |---|---|---|---|---|
 | id | bigint unsigned | no | PRI, auto | — |
 | menu_id | bigint unsigned | no | FK CASCADE, MUL(menu_id, position) | — |
-| parent_id | bigint unsigned | yes | FK menu_items SET NULL | sub-menu (1 level+) |
-| page_id | bigint unsigned | yes | FK pages SET NULL | tautan ke halaman CMS |
-| title | varchar(255) | no | — | teks menu (non-lokal, sementara) |
-| url | varchar(255) | yes | — | URL eksternal/kustom (salah satu dari page_id/url) |
+| parent_id | bigint unsigned | yes | FK menu_items SET NULL | sub-menu |
+| page_id | bigint unsigned | yes | FK pages SET NULL | target tipe page |
+| product_category_id | bigint unsigned | yes | FK product_categories SET NULL | target tipe product_category |
+| route_name | varchar(100) | yes | — | target tipe route (allowlist) |
+| link_type | varchar(30) | no | 'url' | url / page / product_category / route |
+| title | varchar(255) | no | — | label default (fallback locale) |
+| url | varchar(255) | yes | — | tautan bebas untuk tipe url |
 | opens_in_new_tab | boolean | no | false | — |
 | position | int unsigned | no | 0 | urutan dalam menu |
+| created_at / updated_at | timestamp | yes | — | — |
+
+### menu_item_translations
+| Kolom | Tipe | Null | Key/Default | Keterangan |
+|---|---|---|---|---|
+| id | bigint unsigned | no | PRI, auto | — |
+| menu_item_id | bigint unsigned | no | FK CASCADE, UQ(menu_item_id, locale) | — |
+| locale | varchar(10) | no | bagian dari UQ | id / en |
+| title | varchar(255) | no | — | label per bahasa |
 | created_at / updated_at | timestamp | yes | — | — |
 
 ### site_settings

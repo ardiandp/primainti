@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['location'])]
 class Menu extends Model
 {
+    public const LOCATIONS = ['header', 'footer'];
+
     public function items(): HasMany
     {
         return $this->hasMany(MenuItem::class);
