@@ -23,7 +23,7 @@ Legenda status: `Terkunci` = disetujui/tidak berubah tanpa proses; `Usulan` = re
 | ID | Keputusan | Status |
 |---|---|---|
 | D-10 | Stack: Laravel + MySQL + Blade + Livewire + Tailwind | Terkunci (acuan), implementasi Phase 1 |
-| D-11 | Rich text editor: Tiptap **atau** CKEditor — final setelah pemeriksaan lisensi/kompatibilitas | Terbuka → jatuh tempo Phase 4 |
+| D-11 | Rich text editor: **Tiptap v3** (MIT) — CKEditor 5 ditolak karena lisensi GPL/komersial; Tiptap kompatibel Vite + Livewire/Blade, sanitasi server-side via HTMLPurifier | Terkunci 2026-10-14 |
 | D-12 | Media Library memakai Laravel Filesystem | Terkunci (acuan) |
 | D-13 | Role awal (Phase 2): `super_admin`, `content_admin`, `editor` — seeded via RoleSeeder | Terkunci interim |
 | D-14 | Permission memakai notasi dot (`user.view`, `content.manage`, dll.) + `Gate::before` (super_admin bypass; ability dot dicek lewat RBAC) | Terkunci interim |
@@ -60,3 +60,4 @@ Legenda status: `Terkunci` = disetujui/tidak berubah tanpa proses; `Usulan` = re
 |---|---|---|
 | 2026-10-13 | Dokumen dibuat (Phase 0) | Audit agent |
 | 2026-10-14 | Tambah D-13…D-15 (role awal & hak publish interim) + Q-12 | Phase 2 |
+| 2026-10-14 | D-11 terkunci: Tiptap v3 (MIT); sanitasi HTMLPurifier | Phase 4 |
