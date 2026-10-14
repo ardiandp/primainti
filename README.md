@@ -36,6 +36,10 @@ composer setup
 
 # 4. (Opsional) isi data pengembangan: role + admin lokal
 php artisan migrate:fresh --seed
+
+# 5. (Opsional) isi data DUMMY agar website terlihat real (lokal saja,
+#    DITOLAK di production, seluruh konten fiktif + gambar picsum.photos)
+php artisan db:seed --class=DevDummySeeder
 ```
 
 Jalankan server:
