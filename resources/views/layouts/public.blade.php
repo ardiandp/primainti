@@ -15,7 +15,7 @@
 <body class="min-h-screen bg-white text-gray-900 flex flex-col">
     @include('layouts._header')
 
-    <main class="flex-1 max-w-4xl mx-auto px-4 py-10 w-full">
+    <main class="flex-1 max-w-6xl mx-auto px-4 w-full">
         @yield('content')
     </main>
 

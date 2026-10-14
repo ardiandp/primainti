@@ -170,3 +170,105 @@
     margin: 1.5rem 0;
     border-color: #e2e8f0;
 }
+
+/* ---- Sistem desain publik (Modern Industrial Corporate, token preliminary) ---- */
+.btn {
+    display: inline-block;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.25rem;
+    transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.btn-primary {
+    background-color: #f97316;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #ea580c;
+}
+
+.btn-secondary {
+    background-color: #0f2a54;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: #1e4278;
+}
+
+.btn-outline {
+    border: 1px solid #0f2a54;
+    color: #0f2a54;
+}
+
+.btn-outline:hover {
+    background-color: #0f2a54;
+    color: #fff;
+}
+
+.section {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+}
+
+.section-alt {
+    background-color: #f8fafc;
+}
+
+.section-kicker {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #f97316;
+}
+
+.section-title {
+    margin-top: 0.5rem;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+    color: #0f2a54;
+}
+
+.section-lead {
+    margin-top: 0.75rem;
+    color: #475569;
+    max-width: 42rem;
+}
+
+.card {
+    border-radius: 0.75rem;
+    border: 1px solid #f1f5f9;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+    overflow: hidden;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.card-hover:hover {
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+    transform: translateY(-2px);
+}
+
+.hero {
+    background-color: #0f2a54;
+    color: #fff;
+    overflow: hidden;
+}
+
+.hero-accent {
+    background-image: linear-gradient(135deg, rgba(249, 115, 22, 0.25), transparent 60%);
+}
+
+.badge {
+    display: inline-block;
+    border-radius: 9999px;
+    padding: 0.125rem 0.625rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
