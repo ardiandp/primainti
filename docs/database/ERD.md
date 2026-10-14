@@ -20,6 +20,8 @@ erDiagram
     media_assets ||--o{ gallery_items : "gambar utama"
 
     pages ||--o{ page_translations : "terjemahan"
+    page_translations ||--o{ page_sections : "sections"
+    page_translations }o--o| media_assets : "OG image"
     pages ||--o{ menu_items : "ditautkan"
 
     product_categories ||--o{ product_category_translations : "terjemahan"

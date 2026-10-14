@@ -31,4 +31,21 @@ class Page extends Model
     {
         return $query->where('status', 'published');
     }
+
+    /**
+     * Halaman yang boleh tampil publik: status published dan jadwal
+     * published_at (bila diisi) sudah lewat.
+     */
+    public function scopeLive(Builder $query): Builder
+    {
+        return $query->published()
+            ->where(function (Builder $sub) {
+                $sub->whereNull('published_at')->orWhere('published_at', '<=', now());
+            });
+    }
+
+    public function translationFor(string $locale): ?PageTranslation
+    {
+        return $this->translations->firstWhere('locale', $locale);
+    }
 }

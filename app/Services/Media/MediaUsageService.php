@@ -21,6 +21,7 @@ class MediaUsageService
             'product_media' => ['label' => 'Produk', 'column' => 'media_asset_id'],
             'facility_media' => ['label' => 'Fasilitas', 'column' => 'media_asset_id'],
             'gallery_items' => ['label' => 'Item Galeri', 'column' => 'media_asset_id'],
+            'page_translations' => ['label' => 'Halaman (OG image)', 'column' => 'og_image_id'],
         ];
     }
 

@@ -124,7 +124,21 @@ Tabel bawaan `SESSION_DRIVER`/`CACHE_STORE`/`QUEUE_CONNECTION` = database. `cach
 | title | varchar(255) | no | — | — |
 | slug | varchar(255) | no | | unik per locale → URL |
 | summary | text | yes | — | — |
-| content | longtext | yes | — | konten rich text |
+| content | longtext | yes | — | konten rich text (tersanitasi) |
+| seo_title | varchar(255) | yes | — | SEO title per locale |
+| seo_description | varchar(500) | yes | — | meta description per locale |
+| og_image_id | bigint unsigned | yes | FK media_assets SET NULL | OG image dari Media Library |
+| created_at / updated_at | timestamp | yes | — | — |
+
+### page_sections
+| Kolom | Tipe | Null | Key/Default | Keterangan |
+|---|---|---|---|---|
+| id | bigint unsigned | no | PRI, auto | — |
+| page_translation_id | bigint unsigned | no | FK CASCADE, MUL(position) | section milik terjemahan |
+| position | int unsigned | no | 0 | urutan tampil |
+| heading | varchar(255) | yes | — | — |
+| body | longtext | yes | — | rich text tersanitasi |
+| is_visible | boolean | no | true | visibility section |
 | created_at / updated_at | timestamp | yes | — | — |
 
 ## E. Produk
