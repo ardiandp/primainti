@@ -73,6 +73,13 @@
                         Produk
                     </a>
                 @endif
+
+                @if (auth()->user()->hasPermission('content.manage'))
+                    <a href="{{ route('admin.facilities.index') }}"
+                       class="block rounded-lg px-3 py-2 hover:bg-gray-100 {{ request()->routeIs('admin.facilities.*') ? 'bg-gray-100 font-semibold' : '' }}">
+                        Fasilitas
+                    </a>
+                @endif
             </nav>
         </aside>
 

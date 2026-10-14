@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ForgotPasswordController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\MediaLibraryController;
 use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\FacilityController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
@@ -88,6 +89,14 @@ Route::middleware(['auth', 'active'])->prefix('admin')->name('admin.')->group(fu
     Route::get('products/{product}/preview', [ProductController::class, 'preview'])->name('products.preview');
     Route::post('products/{product}/restore', [ProductController::class, 'restore'])->name('products.restore');
     Route::delete('products/{product}/force', [ProductController::class, 'forceDestroy'])->name('products.force-destroy');
+
+    // Fasilitas
+    Route::resource('facilities', FacilityController::class)
+        ->except(['show'])
+        ->parameters(['facilities' => 'facility']);
+    Route::get('facilities/{facility}/preview', [FacilityController::class, 'preview'])->name('facilities.preview');
+    Route::post('facilities/{facility}/restore', [FacilityController::class, 'restore'])->name('facilities.restore');
+    Route::delete('facilities/{facility}/force', [FacilityController::class, 'forceDestroy'])->name('facilities.force-destroy');
 });
 
 // Katalog publik: didaftarkan sebelum catch-all halaman agar
