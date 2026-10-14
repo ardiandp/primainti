@@ -95,6 +95,17 @@
                     </a>
                 @endif
 
+                @if (auth()->user()->hasPermission('contact.view'))
+                    <a href="{{ route('admin.contact-messages.index') }}"
+                       class="flex items-center justify-between rounded-lg px-3 py-2 hover:bg-gray-100 {{ request()->routeIs('admin.contact-messages.*') ? 'bg-gray-100 font-semibold' : '' }}">
+                        <span>Pesan Kontak</span>
+                        @php($unreadCount = \App\Models\ContactMessage::where('is_read', false)->where('status', '!=', 'spam')->count())
+                        @if ($unreadCount > 0)
+                            <span class="rounded-full bg-[#F97316] px-2 py-0.5 text-xs font-bold text-white">{{ $unreadCount }}</span>
+                        @endif
+                    </a>
+                @endif
+
                 @if (auth()->user()->hasPermission('settings.update'))
                     <a href="{{ route('admin.settings.index') }}"
                        class="block rounded-lg px-3 py-2 hover:bg-gray-100 {{ request()->routeIs('admin.settings.*') ? 'bg-gray-100 font-semibold' : '' }}">

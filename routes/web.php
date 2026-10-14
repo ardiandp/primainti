@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\MediaLibraryController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\FacilityController;
+use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\Admin\GalleryCategoryController;
 use App\Http\Controllers\Admin\GalleryItemController;
 use App\Http\Controllers\Admin\MenuController;
@@ -130,6 +131,11 @@ Route::middleware(['auth', 'active'])->prefix('admin')->name('admin.')->group(fu
     // Pengaturan global
     Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('settings', [SettingsController::class, 'update'])->name('settings.update');
+
+    // Pesan kontak
+    Route::resource('contact-messages', ContactMessageController::class)
+        ->only(['index', 'show', 'update'])
+        ->parameters(['contact-messages' => 'contact_message']);
 
     // Menu navigasi
     Route::get('menus', [MenuController::class, 'index'])->name('menus.index');

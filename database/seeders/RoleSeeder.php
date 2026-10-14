@@ -28,6 +28,8 @@ class RoleSeeder extends Seeder
                     'content.publish',
                     'content.manage',
                     'media.manage',
+                    'contact.view',
+                    'contact.update',
                 ])->get(),
             ],
             'editor' => [

@@ -32,6 +32,9 @@ class PermissionSeeder extends Seeder
             'media.manage',
             // Pengaturan situs (dipakai Phase 7+)
             'settings.update',
+            // Pesan kontak (dipakai Phase 9+)
+            'contact.view',
+            'contact.update',
         ];
 
         foreach ($permissions as $name) {
