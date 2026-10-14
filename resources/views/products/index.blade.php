@@ -3,9 +3,10 @@
 @section('seo_title', 'Produk — Primainti')
 
 @section('content')
-    <h1 class="text-3xl font-bold text-[#0F2A54]">Produk</h1>
+    <section class="section">
+        <x-section-head kicker="Katalog" title="Produk" />
 
-    <form method="GET" action="{{ route('public.products.index', $locale) }}" class="mt-6 flex flex-wrap items-center gap-3 text-sm">
+    <form method="GET" action="{{ route('public.products.index', $locale) }}" class="mb-6 flex flex-wrap items-center gap-3 text-sm">
         <select name="kategori" class="rounded-lg border border-gray-300 px-3 py-2" onchange="this.form.submit()">
             <option value="">Semua kategori</option>
             @foreach ($categories as $category)
@@ -21,7 +22,7 @@
         <input type="text" name="q" value="{{ $filters['q'] ?? '' }}" placeholder="Cari produk…"
                class="rounded-lg border border-gray-300 px-3 py-2 w-64 focus:outline-none focus:ring-2 focus:ring-[#F97316]">
 
-        <button type="submit" class="rounded-lg bg-[#0F2A54] text-white px-4 py-2">Cari</button>
+        <button type="submit" class="btn btn-secondary !py-2">Cari</button>
     </form>
 
     @if ($products->isEmpty())
@@ -43,4 +44,5 @@
             {{ $products->links() }}
         </div>
     @endif
+    </section>
 @endsection

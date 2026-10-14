@@ -17,5 +17,7 @@
 @endsection
 
 @section('content')
-    @include('products._detail')
+    <section class="section">
+        @include('products._detail')
+    </section>
 @endsection

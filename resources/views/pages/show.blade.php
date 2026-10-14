@@ -17,5 +17,7 @@
 @endsection
 
 @section('content')
-    @include('pages._body')
+    <section class="section">
+        @include('pages._body')
+    </section>
 @endsection

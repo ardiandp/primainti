@@ -3,7 +3,8 @@
 @section('seo_title', 'Fasilitas — Primainti')
 
 @section('content')
-    <h1 class="text-3xl font-bold text-[#0F2A54]">Fasilitas</h1>
+    <section class="section">
+        <x-section-head kicker="Operasional" title="Fasilitas" />
 
     @if ($facilities->isEmpty())
         <div class="mt-10 rounded-xl border border-dashed border-gray-300 px-4 py-12 text-center text-gray-500">
@@ -31,4 +32,5 @@
             {{ $facilities->links() }}
         </div>
     @endif
+    </section>
 @endsection

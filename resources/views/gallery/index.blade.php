@@ -3,9 +3,10 @@
 @section('seo_title', 'Galeri — Primainti')
 
 @section('content')
-    <h1 class="text-3xl font-bold text-[#0F2A54]">Galeri</h1>
+    <section class="section">
+        <x-section-head kicker="Dokumentasi" title="Galeri" />
 
-    <form method="GET" action="{{ route('public.gallery.index', $locale) }}" class="mt-6 flex flex-wrap items-center gap-2 text-sm">
+    <form method="GET" action="{{ route('public.gallery.index', $locale) }}" class="flex flex-wrap items-center gap-2 text-sm">
         <a href="{{ route('public.gallery.index', $locale) }}"
            class="rounded-full px-4 py-1.5 border {{ $activeCategory === null ? 'bg-[#0F2A54] text-white border-[#0F2A54]' : 'border-gray-300 hover:border-[#F97316]' }}">
             Semua
@@ -82,4 +83,5 @@
             @vite(['resources/js/lightbox.js'])
         @endpush
     @endif
+    </section>
 @endsection

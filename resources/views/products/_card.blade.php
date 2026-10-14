@@ -6,7 +6,7 @@
 @php($categoryName = $product->category?->translationFor($locale)?->name
     ?? $product->category?->translations->first()?->name)
 
-<article class="rounded-xl border border-gray-200 bg-white overflow-hidden shadow-sm hover:shadow-md transition">
+<article class="card card-hover">
     @if ($t)
         <a href="{{ route('public.products.show', [$locale, $t->slug]) }}" class="block h-44 bg-gray-100 flex items-center justify-center overflow-hidden">
             @if ($primary)
@@ -31,7 +31,7 @@
             @endif
 
             <a href="{{ route('public.products.show', [$locale, $t->slug]) }}"
-               class="mt-3 inline-block rounded-lg bg-[#0F2A54] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1E4278]">
+               class="btn btn-secondary mt-3 !py-2">
                 Lihat Detail
             </a>
         </div>
