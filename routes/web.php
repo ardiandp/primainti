@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\FacilityController;
 use App\Http\Controllers\Admin\GalleryCategoryController;
 use App\Http\Controllers\Admin\GalleryItemController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
@@ -119,6 +120,10 @@ Route::middleware(['auth', 'active'])->prefix('admin')->name('admin.')->group(fu
         ->name('gallery-items.restore');
     Route::delete('gallery-items/{gallery_item}/force', [GalleryItemController::class, 'forceDestroy'])
         ->name('gallery-items.force-destroy');
+
+    // Pengaturan global
+    Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::put('settings', [SettingsController::class, 'update'])->name('settings.update');
 });
 
 // Katalog publik: didaftarkan sebelum catch-all halaman agar

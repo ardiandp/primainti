@@ -94,6 +94,13 @@
                         Galeri
                     </a>
                 @endif
+
+                @if (auth()->user()->hasPermission('settings.update'))
+                    <a href="{{ route('admin.settings.index') }}"
+                       class="block rounded-lg px-3 py-2 hover:bg-gray-100 {{ request()->routeIs('admin.settings.*') ? 'bg-gray-100 font-semibold' : '' }}">
+                        Pengaturan
+                    </a>
+                @endif
             </nav>
         </aside>
 
