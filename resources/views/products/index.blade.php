@@ -2,6 +2,12 @@
 
 @section('seo_title', 'Produk — Primainti')
 
+@section('seo_head')
+    <link rel="canonical" href="{{ route('public.products.index', $locale) }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Produk — Primainti">
+@endsection
+
 @section('content')
     <section class="section">
         <x-section-head kicker="Katalog" title="Produk" />

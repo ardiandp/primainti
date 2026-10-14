@@ -2,6 +2,12 @@
 
 @section('seo_title', 'Fasilitas — Primainti')
 
+@section('seo_head')
+    <link rel="canonical" href="{{ route('public.facilities.index', $locale) }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Fasilitas — Primainti">
+@endsection
+
 @section('content')
     <section class="section">
         <x-section-head kicker="Operasional" title="Fasilitas" />

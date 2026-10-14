@@ -19,7 +19,7 @@
 
         <div class="p-4">
             @if ($categoryName)
-                <p class="text-xs font-semibold uppercase tracking-wide text-[#F97316]">{{ $categoryName }}</p>
+                <p class="text-xs font-semibold uppercase tracking-wide text-[#C2410C]">{{ $categoryName }}</p>
             @endif
 
             <h3 class="mt-1 font-bold text-[#0F2A54]">

@@ -100,6 +100,7 @@ Memakai standar Tailwind (bukan penemuan baru):
 | Varian | Latar | Teks | Radius | Padding (x/y) | Status |
 |---|---|---|---|---|---|
 | Primary | `brand-orange` (kandidat) | putih | 8px | 24px / 12px | Preliminary |
+| Primary publik | `#C2410C` (orange-700) | putih | 8px | 24px / 12px | Confirmed Phase 10 — oranye kandidat gagal kontras AA untuk teks, digelapkan di CSS publik |
 | Secondary | `brand-navy` | putih | 8px | 24px / 12px | Preliminary |
 | Outline | transparan, border navy | navy | 8px | 24px / 12px | Preliminary |
 | Ghost | transparan | navy/oranye | 8px | 16px / 8px | Preliminary |

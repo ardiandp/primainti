@@ -4,6 +4,12 @@
 
 @section('seo_description', $settings->get('seo_default_description') ?: ($settings->get($locale === 'id' ? 'tagline_id' : 'tagline_en') ?: ''))
 
+@section('seo_head')
+    <link rel="canonical" href="{{ route('public.home', $locale) }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ $settings->get('seo_default_title') ?: 'Primainti' }}">
+@endsection
+
 @section('content')
     {{-- Hero: merek + tagline + CTA dari pengaturan (tanpa klaim karangan). --}}
     @php($tagline = $settings->get($locale === 'id' ? 'tagline_id' : 'tagline_en'))

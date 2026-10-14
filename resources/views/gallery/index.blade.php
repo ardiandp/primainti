@@ -2,6 +2,12 @@
 
 @section('seo_title', 'Galeri — Primainti')
 
+@section('seo_head')
+    <link rel="canonical" href="{{ route('public.gallery.index', $locale) }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Galeri — Primainti">
+@endsection
+
 @section('content')
     <section class="section">
         <x-section-head kicker="Dokumentasi" title="Galeri" />
@@ -72,7 +78,7 @@
                     <button type="button" data-lightbox-prev aria-label="Foto sebelumnya"
                             class="rounded-full bg-white/10 hover:bg-white/20 text-white px-4 py-2 text-sm">‹ Sebelumnya</button>
                     <button type="button" data-lightbox-close
-                            class="rounded-full bg-[#F97316] hover:bg-[#EA580C] text-white px-4 py-2 text-sm">Tutup (Esc)</button>
+                            class="rounded-full bg-[#C2410C] hover:bg-[#9A3412] text-white px-4 py-2 text-sm">Tutup (Esc)</button>
                     <button type="button" data-lightbox-next aria-label="Foto berikutnya"
                             class="rounded-full bg-white/10 hover:bg-white/20 text-white px-4 py-2 text-sm">Berikutnya ›</button>
                 </div>

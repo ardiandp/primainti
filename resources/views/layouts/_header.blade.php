@@ -49,7 +49,7 @@
 
             @if ($ctaLabel && $ctaUrl)
                 <a href="{{ $ctaUrl }}"
-                   class="rounded-lg bg-[#F97316] hover:bg-[#EA580C] px-4 py-2 font-semibold transition">{{ $ctaLabel }}</a>
+                   class="rounded-lg bg-[#C2410C] hover:bg-[#9A3412] px-4 py-2 font-semibold transition">{{ $ctaLabel }}</a>
             @endif
 
             <span class="flex items-center gap-1 border border-white/30 rounded-lg px-2 py-1" role="group" aria-label="Bahasa">
@@ -98,7 +98,7 @@
 
         @if ($ctaLabel && $ctaUrl)
             <a href="{{ $ctaUrl }}"
-               class="block rounded-lg bg-[#F97316] px-3 py-2 font-semibold text-center">{{ $ctaLabel }}</a>
+               class="block rounded-lg bg-[#C2410C] px-3 py-2 font-semibold text-center">{{ $ctaLabel }}</a>
         @endif
     </nav>
 </header>

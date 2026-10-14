@@ -16,6 +16,21 @@
     @endif
 @endsection
 
+@section('jsonld')
+    @php($primaryImage = $product->primaryMedia()?->asset)
+    <script type="application/ld+json">
+        {!! json_encode(array_filter([
+            '@context' => 'https://schema.org',
+            '@type' => 'Product',
+            'name' => $translation->name,
+            'description' => $translation->short_description,
+            'sku' => $product->sku,
+            'url' => url()->current(),
+            'image' => $primaryImage ? url($primaryImage->url()) : null,
+        ]), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
+@endsection
+
 @section('content')
     <section class="section">
         @include('products._detail')

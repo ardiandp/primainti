@@ -2,6 +2,12 @@
 
 @section('seo_title', 'Kontak — Primainti')
 
+@section('seo_head')
+    <link rel="canonical" href="{{ route('public.contact.show', $locale) }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Kontak — Primainti">
+@endsection
+
 @section('content')
     <section class="section">
         <x-section-head kicker="Kontak" :title="__('contact.title')" />

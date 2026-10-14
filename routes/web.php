@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FacilityShowController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageShowController;
@@ -24,6 +25,9 @@ use App\Http\Controllers\ProductCatalogController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/'.config('app.locale', 'en'));
+
+Route::get('/sitemap.xml', [SitemapController::class, 'sitemap'])->name('public.sitemap');
+Route::get('/robots.txt', [SitemapController::class, 'robots'])->name('public.robots');
 
 Route::get('/{locale}', [HomeController::class, 'index'])
     ->whereIn('locale', ['id', 'en'])

@@ -43,7 +43,7 @@
 
     <div>
         @if ($categoryName)
-            <p class="text-xs font-semibold uppercase tracking-wide text-[#F97316]">{{ $categoryName }}</p>
+            <p class="text-xs font-semibold uppercase tracking-wide text-[#C2410C]">{{ $categoryName }}</p>
         @endif
 
         <h1 class="mt-1 text-3xl font-bold text-[#0F2A54]">{{ $translation->name }}</h1>
@@ -114,7 +114,7 @@
             @foreach ($documents as $document)
                 <li>
                     <a href="{{ $document->asset->url() }}" target="_blank" rel="noopener"
-                       class="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm hover:border-[#F97316] hover:text-[#EA580C]">
+                       class="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm hover:border-[#C2410C] hover:text-[#C2410C]">
                         <span class="rounded bg-gray-100 px-1.5 py-0.5 text-xs font-semibold uppercase">{{ $document->type }}</span>
                         {{ $document->label ?: $document->asset->original_name }}
                     </a>
